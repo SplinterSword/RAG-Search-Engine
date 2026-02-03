@@ -3,6 +3,7 @@ from typing import Counter
 from utils.text_preprocessing import text_preprocessing
 from pathlib import Path
 import pickle
+import math
 
 class InvertedIndex:
     """
@@ -35,6 +36,19 @@ class InvertedIndex:
 
         token = tokens[0]
         return self.term_frequency.get(doc_id, Counter()).get(token, 0)
+    
+    def get_idf(self, term: str) -> float:
+        term_tokens = text_preprocessing(term)
+        if len(term_tokens) != 1:
+            raise ValueError("Term must be a single token")
+        
+        token = term_tokens[0]
+        total_doc_count = len(self.docmap)
+        postings = self.index.get(token, [])
+        term_match_doc_count = len(set(postings))
+        
+        idf = math.log((total_doc_count + 1) / (term_match_doc_count + 1))
+        return idf
     
     def build(self, movies: list[dict]):
         for movie in movies:

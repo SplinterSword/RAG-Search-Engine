@@ -35,6 +35,11 @@ def main() -> None:
     idf_parser = subparsers.add_parser("idf", help="Get inverse document frequency")
     idf_parser.add_argument("term", type=str, help="Term to get inverse document frequency for")
 
+    # get tf-idf
+    tf_idf_parser = subparsers.add_parser("tfidf", help="Get TF-IDF")
+    tf_idf_parser.add_argument("document_id", type=int, help="Document ID")
+    tf_idf_parser.add_argument("term", type=str, help="Term to get TF-IDF for")
+
     args = parser.parse_args()
 
     match args.command:
@@ -65,20 +70,22 @@ def main() -> None:
             index = InvertedIndex()
             index.load()
             
-            term_tokens = text_preprocessing(args.term)
-            if len(term_tokens) != 1:
-                print("Error: term must resolve to a single token after preprocessing")
-                return 1
-            term = term_tokens[0]
-
-            total_doc_count = len(index.docmap)
-            postings = index.index.get(term, [])
-            term_match_doc_count = len(set(postings))
-            
-            idf = math.log((total_doc_count + 1) / (term_match_doc_count + 1))
+            idf = index.get_idf(args.term)
 
             print(f"Inverse document frequency of '{args.term}': {idf:.2f}")
             return idf
+
+        case "tfidf":
+            print("Getting TF-IDF for:", args.term, "in document", args.document_id)
+
+            index = InvertedIndex()
+            index.load()
+            
+            tf = index.get_tf(args.document_id, args.term)
+            idf = index.get_idf(args.term)
+            tf_idf = tf * idf
+            print(f"TF-IDF score of '{args.term}' in document '{args.document_id}': {tf_idf:.2f}")
+            return tf_idf
             
         case "search":
             print("Searching for:", args.query)
