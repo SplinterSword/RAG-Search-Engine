@@ -50,6 +50,19 @@ class InvertedIndex:
         idf = math.log((total_doc_count + 1) / (term_match_doc_count + 1))
         return idf
     
+    def get_bm25_idf(self, term: str) -> float:
+        term_tokens = text_preprocessing(term)
+        if len(term_tokens) != 1:
+            raise ValueError("Term must be a single token")
+        
+        token = term_tokens[0]
+        total_doc_count = len(self.docmap)
+        postings = self.index.get(token, [])
+        term_match_doc_count = len(set(postings))
+        
+        idf = math.log((total_doc_count - term_match_doc_count + 0.5) / (term_match_doc_count + 0.5) + 1)
+        return idf
+    
     def build(self, movies: list[dict]):
         for movie in movies:
             self.__add_document(movie['id'], f"{movie['title']} {movie['description']}")
