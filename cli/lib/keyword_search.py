@@ -11,7 +11,7 @@ class InvertedIndex:
     Inverted index class for storing token-document mappings.
     """
     index: dict[str, list[int]] = {}
-    docmap: dict[int, str] = {}
+    docmap: dict[int, dict] = {}
     term_frequency: dict[int, Counter] = {}
     doc_length: dict[int, int] = {}
 
