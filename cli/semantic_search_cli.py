@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
-from lib.semantic_search import verify_modal, embed_text, verify_embeddings
+from lib.semantic_search import verify_modal, verify_embeddings, embed_query_text
 
 def main():
     parser = argparse.ArgumentParser(description="Semantic Search CLI")
@@ -13,6 +13,10 @@ def main():
     # Embed Text
     embed_text_parser = subparsers.add_parser("embed_text", help="Embed a text")
     embed_text_parser.add_argument("text", type=str, help="Text to embed")
+
+    # Embed Query
+    embed_query_parser = subparsers.add_parser("embedquery", help="Embed a query")
+    embed_query_parser.add_argument("text", type=str, help="Query to embed")
 
     # Verify Embeddings
     subparsers.add_parser("verify_embeddings", help="Verify the embeddings")
@@ -31,7 +35,11 @@ def main():
                 exit(1)
         
         case "embed_text":
-            embedding = embed_text(args.text)
+            embedding = embed_query_text(args.text)
+            return embedding
+        
+        case "embedquery":
+            embedding = embed_query_text(args.text)
             return embedding
 
         case "verify_embeddings":

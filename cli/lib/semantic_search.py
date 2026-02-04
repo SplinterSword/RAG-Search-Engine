@@ -2,6 +2,12 @@ from sentence_transformers import SentenceTransformer
 import numpy as np
 from pathlib import Path
 import json
+import sys
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+if str(BASE_DIR) not in sys.path:
+    sys.path.append(str(BASE_DIR))
+from utils.semantic_search_utils.text_preprocessing import text_preprocessing
+
 class SemanticSearch:
     modal = None
     embeddings = None
@@ -17,6 +23,8 @@ class SemanticSearch:
     def generate_embedding(self, text: str):
         if text == "" or text is None or len(text.strip()) == 0:
             raise ValueError("Text cannot be empty or None or only contains whitespace")
+
+        text = text_preprocessing(text)
         
         embeddings = self.modal.encode([text])
         return embeddings[0]
@@ -71,12 +79,12 @@ def verify_modal():
         print(f"Error loading model: {e}")
         return False
 
-def embed_text(text: str):
+def embed_query_text(query: str):
     sematic_search = SemanticSearch()
-    embedding = sematic_search.generate_embedding(text)
-    print(f"Text: {text}")
-    print(f"First 3 dimensions: {embedding[:3]}")
-    print(f"Dimensions: {embedding.shape[0]}")
+    embedding = sematic_search.generate_embedding(query)
+    print(f"Query: {query}")
+    print(f"First 5 dimensions: {embedding[:5]}")
+    print(f"Shape: {embedding.shape}")
     return embedding
 
 def verify_embeddings():
