@@ -23,11 +23,15 @@ def main():
     # Verify Embeddings
     subparsers.add_parser("verify_embeddings", help="Verify the embeddings")
 
+    # Chunk
+    chunk_parser = subparsers.add_parser("chunk", help="Chunk the documents")
+    chunk_parser.add_argument("text", type=str, help="Text to chunk")
+    chunk_parser.add_argument("--chunk-size", type=int, default=10, help="Chunk size")
+
     # search
     search_parser = subparsers.add_parser("search", help="Search for documents")
     search_parser.add_argument("query", type=str, help="Query to search for")
     search_parser.add_argument("--limit", type=int, default=5, help="Number of results to return")
-    
     
     args = parser.parse_args()
 
@@ -56,6 +60,22 @@ def main():
             else:
                 print("Malformed embeddings are produced")
                 exit(1)
+
+        case "chunk":
+            splited_text = args.text.split()
+            total_char = len(splited_text)
+            n = args.chunk_size
+
+            chunks = []
+
+            for i in range(0, total_char, n):
+                chunks.append(' '.join(splited_text[i:i+n]))
+
+            print(f"Chunking {total_char} characters")
+            for i, chunk in enumerate(chunks):
+                print(f"{i+1}. {chunk}")
+            
+            return chunks
 
         case "search":
             semantic_search = SemanticSearch()
