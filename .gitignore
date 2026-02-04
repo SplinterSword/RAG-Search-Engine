@@ -7,7 +7,6 @@ wheels/
 *.egg-info
 
 # Directory for storing data
-/data
 /cache
 /lib/cache
 
