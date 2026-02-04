@@ -14,8 +14,6 @@ from utils.keyword_seach_utils.text_preprocessing import text_preprocessing
 from lib.keyword_search import InvertedIndex
 from utils.keyword_seach_utils.search_utils import BM25_K1, BM25_B
 
-
-
 def main() -> None:
     parser = argparse.ArgumentParser(description="Keyword Search CLI")
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
