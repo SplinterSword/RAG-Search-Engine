@@ -1,4 +1,4 @@
-from classes.inverted_index import InvertedIndex
+from cli.lib.keyword_search import InvertedIndex
 from utils.search_utils import BM25_K1, BM25_B
 
 def get_bm25_idf(term: str) -> float:

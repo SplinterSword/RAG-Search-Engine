@@ -12,7 +12,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from utils.tfidf_utils import get_bm25_idf, bm25_tf_command
 from utils.text_preprocessing import text_preprocessing
-from classes.inverted_index import InvertedIndex
+from lib.keyword_search import InvertedIndex
 from utils.search_utils import BM25_K1, BM25_B
 
 
