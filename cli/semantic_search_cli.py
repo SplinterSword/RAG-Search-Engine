@@ -27,6 +27,7 @@ def main():
     chunk_parser = subparsers.add_parser("chunk", help="Chunk the documents")
     chunk_parser.add_argument("text", type=str, help="Text to chunk")
     chunk_parser.add_argument("--chunk-size", type=int, default=10, help="Chunk size")
+    chunk_parser.add_argument("--overlap", type=int, default=0, help="Overlap between chunks")
 
     # search
     search_parser = subparsers.add_parser("search", help="Search for documents")
@@ -65,10 +66,11 @@ def main():
             splited_text = args.text.split()
             total_char = len(splited_text)
             n = args.chunk_size
+            overlap = args.overlap
 
             chunks = []
 
-            for i in range(0, total_char, n):
+            for i in range(0, total_char, n - overlap):
                 chunks.append(' '.join(splited_text[i:i+n]))
 
             print(f"Chunking {total_char} characters")
