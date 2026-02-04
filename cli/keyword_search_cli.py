@@ -5,15 +5,14 @@ import json
 import sys
 from pathlib import Path
 
-# Ensure project root is on sys.path BEFORE importing project modules
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from utils.tfidf_utils import get_bm25_idf, bm25_tf_command
-from utils.text_preprocessing import text_preprocessing
+from utils.keyword_seach_utils.tfidf_utils import get_bm25_idf, bm25_tf_command
+from utils.keyword_seach_utils.text_preprocessing import text_preprocessing
 from lib.keyword_search import InvertedIndex
-from utils.search_utils import BM25_K1, BM25_B
+from utils.keyword_seach_utils.search_utils import BM25_K1, BM25_B
 
 
 

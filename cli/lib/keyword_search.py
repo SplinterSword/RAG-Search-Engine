@@ -1,10 +1,10 @@
 
 from typing import Counter
-from utils.text_preprocessing import text_preprocessing
+from utils.keyword_seach_utils.text_preprocessing import text_preprocessing
 from pathlib import Path
 import pickle
 import math
-from utils.search_utils import BM25_K1, BM25_B
+from utils.keyword_seach_utils.search_utils import BM25_K1, BM25_B
 
 class InvertedIndex:
     """
