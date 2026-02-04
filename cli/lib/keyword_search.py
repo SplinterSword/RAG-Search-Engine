@@ -106,7 +106,7 @@ class InvertedIndex:
             self.docmap[movie['id']] = movie
     
     def save(self):
-        BASE_DIR = Path(__file__).resolve().parent.parent
+        BASE_DIR = Path(__file__).resolve().parent.parent.parent
         cache_dir = BASE_DIR / 'cache'
         cache_dir.mkdir(exist_ok=True)
         
@@ -120,7 +120,7 @@ class InvertedIndex:
             pickle.dump(self.doc_length, f)
 
     def load(self):
-        BASE_DIR = Path(__file__).resolve().parent.parent
+        BASE_DIR = Path(__file__).resolve().parent.parent.parent
         cache_dir = BASE_DIR / 'cache'
         
         if not cache_dir.exists():
