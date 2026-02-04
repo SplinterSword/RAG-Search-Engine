@@ -9,6 +9,7 @@ wheels/
 # Directory for storing data
 /data
 /cache
+/lib/cache
 
 # Virtual environments
 .venv
