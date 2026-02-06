@@ -107,6 +107,11 @@ class SemanticSearch:
         return results
 
 class ChunkedSemanticSearch(SemanticSearch):
+    chunk_embeddings: np.ndarray = None
+    chunk_metadata: dict = None
+    documents: list[dict] = None
+    document_map: dict[int, dict] = {}
+    
     def __init__(self, model_name = "all-MiniLM-L6-v2") -> None:
         super().__init__(model_name)
         self.chunk_embeddings = None

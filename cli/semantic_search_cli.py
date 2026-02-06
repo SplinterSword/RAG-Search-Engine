@@ -157,7 +157,7 @@ def main():
 
             results = chunk_semantic_search.search_chunk(query, limit)
             for i, result in enumerate(results):
-                print(f"\n{i}. {result['title']} (score: {result['score']:.4f})")
+                print(f"\n{i+1}. {result['title']} (score: {result['score']:.4f})")
                 print(f"   {result['document']}...")
             
             return results
