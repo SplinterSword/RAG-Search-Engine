@@ -119,15 +119,19 @@ class InvertedIndex:
         with open(cache_dir / 'doc_length.pkl', 'wb') as f:
             pickle.dump(self.doc_length, f)
 
-    def load(self):
+    def load(self, documents: list[dict]):
         BASE_DIR = Path(__file__).resolve().parent.parent.parent
         cache_dir = BASE_DIR / 'cache'
         
         if not cache_dir.exists():
-            raise FileNotFoundError("Cache directory not found. Run 'build' command first.")
+            print("Cache directory not found. Building index...")
+            self.build(documents)
+            self.save()
         
         if not (cache_dir / 'index.pkl').exists() or not (cache_dir / 'docmap.pkl').exists() or not (cache_dir / 'term_frequency.pkl').exists():
-            raise FileNotFoundError("Cache files not found. Run 'build' command first.")
+            print("Cache files not found. Building index...")
+            self.build(documents)
+            self.save()
 
         print("Loading index...")
         with open(cache_dir / 'index.pkl', 'rb') as f:

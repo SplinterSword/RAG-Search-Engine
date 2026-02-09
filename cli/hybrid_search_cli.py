@@ -1,5 +1,13 @@
 import argparse
+import sys
+from pathlib import Path
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
+from utils.hybrid_search_utils.normalize_score import normalize_score
+from lib.hybrid_search import HybridSearch
+from utils.cli_utils.file_loading import load_movies
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Hybrid Search CLI")
@@ -8,7 +16,13 @@ def main() -> None:
     # normalize
     normalize_parser = subparser.add_parser("normalize", help="Normalize text")
     normalize_parser.add_argument("scores", nargs="+", help="List of scores to normalize")
-    
+
+    # weighted_search
+    weighted_search_parser = subparser.add_parser("weighted_search", help="Perform weighted search")
+    weighted_search_parser.add_argument("query", type=str, help="Query string")
+    weighted_search_parser.add_argument("--alpha", type=float, default=0.5, help="Alpha value for weighted search (default: 0.5)")
+    weighted_search_parser.add_argument("--limit", type=int, default=5, help="Limit number of results (default: 5)")
+
     args = parser.parse_args()
 
 
@@ -19,20 +33,27 @@ def main() -> None:
                 print("No scores provided")
                 return
             
-            print("Original scores:", scores)
+            
             # Convert string scores to float
             scores = [float(score) for score in scores]
-            min_score = min(scores)
-            max_score = max(scores)
-            if min_score == max_score:
-                normalized_scores = [1.0] * len(scores)
-                print("Normalizing scores:", [f"{score:.4f}" for score in normalized_scores])
-                return
-            
-            # Normalize scores
-            normalized_scores = [(score - min_score) / (max_score - min_score) for score in scores]
 
+            normalized_scores = normalize_score(scores)
+            
             print("Normalizing scores:", [f"{score:.4f}" for score in normalized_scores])
+            return normalized_scores
+        
+        case "weighted_search":
+            query = args.query
+            alpha = args.alpha
+            limit = args.limit
+
+            documents = load_movies()
+
+            hybrid_search = HybridSearch(documents)
+            results = hybrid_search.weighted_search(query, alpha, limit)
+            
+            for i,result in enumerate(results):
+                print(f"{i+1}. {result['title']}\nHybrid Score: {result['hybrid_score']:.4f}\nBM25: {result['bm25_score']:.4f}, Semantic: {result['semantic_score']:.4f}\n{result['document'][:50] + '...'}")
 
         case _:
             parser.print_help()

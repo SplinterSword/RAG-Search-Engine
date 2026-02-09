@@ -13,6 +13,7 @@ from utils.keyword_seach_utils.tfidf_utils import get_bm25_idf, bm25_tf_command
 from utils.keyword_seach_utils.text_preprocessing import text_preprocessing
 from lib.keyword_search import InvertedIndex
 from utils.keyword_seach_utils.search_utils import BM25_K1, BM25_B
+from utils.keyword_seach_utils.load_utils import load_movies
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Keyword Search CLI")
@@ -72,8 +73,10 @@ def main() -> None:
         case "tf":
             print("Getting TF for:", args.term, "in document", args.document_id)
 
+            movies = load_movies()
+
             index = InvertedIndex()
-            index.load()
+            index.load(movies)
             
             tf = index.get_tf(args.document_id, args.term)
             print(tf)
@@ -89,8 +92,10 @@ def main() -> None:
         case "idf":
             print("Getting IDF for:", args.term)
 
+            movies = load_movies()
+
             index = InvertedIndex()
-            index.load()
+            index.load(movies)
             
             idf = index.get_idf(args.term)
 
@@ -108,8 +113,10 @@ def main() -> None:
         case "tfidf":
             print("Getting TF-IDF for:", args.term, "in document", args.document_id)
 
+            movies = load_movies()
+
             index = InvertedIndex()
-            index.load()
+            index.load(movies)
             
             tf = index.get_tf(args.document_id, args.term)
             idf = index.get_idf(args.term)
@@ -120,8 +127,10 @@ def main() -> None:
         case "bm25search":
             print("Searching for:", args.query)
 
+            movies = load_movies()
+
             index = InvertedIndex()
-            index.load()
+            index.load(movies)
             
             results = index.bm25_search(args.query, args.limit)
             for doc_id, score in results:
@@ -131,8 +140,10 @@ def main() -> None:
         case "search":
             print("Searching for:", args.query)
 
+            movies = load_movies()
+
             index = InvertedIndex()
-            index.load()
+            index.load(movies)
             
             query_tokens = text_preprocessing(args.query)
             seen_doc_ids = []
