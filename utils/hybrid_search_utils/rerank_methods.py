@@ -3,6 +3,7 @@ from time import sleep
 from dotenv import load_dotenv
 from google import genai
 import json
+from sentence_transformers import CrossEncoder
 
 load_dotenv()
 api_key = os.environ.get("GEMINI_API_KEY")
@@ -12,11 +13,10 @@ client = genai.Client(api_key=api_key)
 def rerank_individual(results, query, documents, limit):
     
     for result in results:
-        doc = documents[int(result["id"]) - 1]
         prompt = f"""Rate how well this movie matches the search query.
 
 Query: "{query}"
-Movie: {doc.get("title", "")} - {doc.get("description", "")}
+Movie: {result.get("title", "")} - {result.get("document", "")}
 
 Consider:
 - Direct relevance to query
@@ -72,8 +72,28 @@ Return ONLY the IDs in order of relevance (best match first). Return a valid JSO
     
     return results
 
+def rerank_cross_encoder(results, query, documents, limit):
+    pairs = []
+    cross_encoder = CrossEncoder("cross-encoder/ms-marco-TinyBERT-L2-v2")
+    for result in results:
+        pairs.append([query, f"{result.get('title', '')} - {result.get('document', '')}"])
+        result["cross_encoder_score"] = 0
+    
+    scores = cross_encoder.predict(pairs)
+
+    for i, result in enumerate(results):
+        result["cross_encoder_score"] = scores[i]
+
+    results.sort(key=lambda x: x["cross_encoder_score"], reverse=True)
+
+    results = results[:limit]
+    
+    return results
+
 def rerank(results, rerank_method, query, documents, limit):
     if rerank_method == "individual":
         return rerank_individual(results, query, documents, limit)
     elif rerank_method == "batch":
         return rerank_batch(results, query, documents, limit)
+    elif rerank_method == "cross_encoder":
+        return rerank_cross_encoder(results, query, documents, limit)
