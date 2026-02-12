@@ -9,6 +9,7 @@ from utils.hybrid_search_utils.normalize_score import normalize_score
 from lib.hybrid_search import HybridSearch
 from utils.cli_utils.file_loading import load_movies
 from utils.hybrid_search_utils.query_enhancement import enhance_query
+from utils.hybrid_search_utils.rerank_methods import rerank
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Hybrid Search CLI")
@@ -30,6 +31,7 @@ def main() -> None:
     rrf_search_parser.add_argument("-k", type=int, default=60, help="K value for RRF search (default: 60)")
     rrf_search_parser.add_argument("--limit", type=int, default=5, help="Limit number of results (default: 5)")
     rrf_search_parser.add_argument("--enhance", type=str, choices=["spell","rewrite","expand"], help="Query enhancement method")
+    rrf_search_parser.add_argument("--rerank-method", type=str, choices=["individual"], help="Rerank method")
 
     args = parser.parse_args()
 
@@ -69,6 +71,10 @@ def main() -> None:
             k = args.k
             limit = args.limit
             enhance = args.enhance
+            rerank_method = args.rerank_method
+
+            if rerank_method is not None:
+                limit *= 5
 
             if enhance:
                 query = enhance_query(query, enhance)
@@ -77,9 +83,16 @@ def main() -> None:
 
             hybrid_search = HybridSearch(documents)
             results = hybrid_search.rrf_search(query, k, limit)
+
+            if rerank_method:
+                limit = limit // 5
+                results = rerank(results, rerank_method, query, documents, limit)
             
             for i,result in enumerate(results):
-                print(f"{i+1}. {result['title']}\nRRF Score: {result['rrf_score']}\nBM25 Rank: {result['bm25_rank']}, Semantic Rank: {result['semantic_rank']}\n{result['document'][:50] + '...'}")
+                if rerank_method:
+                    print(f"{i+1}. {result['title']}\nRerank Score: {result['rerank_score']:.4f}\nRRF Score: {result['rrf_score']:.4f}\nBM25 Rank: {result['bm25_rank']}, Semantic Rank: {result['semantic_rank']}\n{result['document'][:50] + '...'}")
+                else:
+                    print(f"{i+1}. {result['title']}\nRRF Score: {result['rrf_score']:.4f}\nBM25 Rank: {result['bm25_rank']}, Semantic Rank: {result['semantic_rank']}\n{result['document'][:50] + '...'}")
 
         case _:
             parser.print_help()
