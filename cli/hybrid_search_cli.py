@@ -8,6 +8,7 @@ if str(PROJECT_ROOT) not in sys.path:
 from utils.hybrid_search_utils.normalize_score import normalize_score
 from lib.hybrid_search import HybridSearch
 from utils.cli_utils.file_loading import load_movies
+from utils.hybrid_search_utils.query_enhancement import enhance_query
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Hybrid Search CLI")
@@ -28,6 +29,7 @@ def main() -> None:
     rrf_search_parser.add_argument("query", type=str, help="Query string")
     rrf_search_parser.add_argument("-k", type=int, default=60, help="K value for RRF search (default: 60)")
     rrf_search_parser.add_argument("--limit", type=int, default=5, help="Limit number of results (default: 5)")
+    rrf_search_parser.add_argument("--enhance", type=str, choices=["spell"], help="Query enhancement method")
 
     args = parser.parse_args()
 
@@ -66,6 +68,10 @@ def main() -> None:
             query = args.query
             k = args.k
             limit = args.limit
+            enhance = args.enhance
+
+            if enhance:
+                query = enhance_query(query, enhance)
 
             documents = load_movies()
 
