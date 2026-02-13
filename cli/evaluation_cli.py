@@ -76,11 +76,15 @@ def main():
         relevant_results = [result for result in rrf_results if result["title"] in relevant_titles][:limit]
         
         precision_at_k = len(relevant_results) / limit
-        recall_at_k = len(relevant_results) / len(relevant_docs)
+        recall_at_k = len(relevant_results) / len(relevant_docs) if relevant_docs else 0.0
+        f1_denominator = precision_at_k + recall_at_k
+        f1_at_k = (2 * precision_at_k * recall_at_k / f1_denominator) if f1_denominator > 0 else 0.0
+        
         print(f"k={limit}")
         print(f"\n- Query: {query}")
         print(f"  - Precision@{limit}: {precision_at_k:.4f}")
         print(f"  - Recall@{limit}: {recall_at_k:.4f}")
+        print(f"   -F1 Score: {f1_at_k:.4f}")
         print(f"  - Retrieved: {', '.join([result['title'] for result in rrf_results][:limit])}")
         print(f"  - Relevant: {', '.join(relevant_docs)}")
 
