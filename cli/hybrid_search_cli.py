@@ -13,35 +13,10 @@ from utils.cli_utils.file_loading import load_movies
 from utils.hybrid_search_utils.query_enhancement import enhance_query
 from utils.hybrid_search_utils.rerank_methods import rerank
 from utils.hybrid_search_utils.print import _print_rrf_result
-
+from utils.hybrid_search_utils.debugger import _enable_debug_logging, _summarize_results
+from utils.hybrid_search_utils.evaluate import _evaluate_results
 
 logger = logging.getLogger(__name__)
-
-
-def _enable_debug_logging() -> None:
-    if logger.handlers:
-        return
-    handler = logging.StreamHandler(stream=sys.stderr)
-    handler.setFormatter(logging.Formatter("[%(levelname)s] %(message)s"))
-    logger.addHandler(handler)
-    logger.setLevel(logging.DEBUG)
-    logger.propagate = False
-
-
-def _summarize_results(results: list[dict], limit: int = 5) -> list[dict]:
-    summary = []
-    for result in results[:limit]:
-        summary.append(
-            {
-                "id": result.get("id"),
-                "title": result.get("title"),
-                "rrf_score": result.get("rrf_score"),
-                "rerank_score": result.get("rerank_score"),
-                "cross_encoder_score": result.get("cross_encoder_score"),
-            }
-        )
-    return summary
-
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Hybrid Search CLI")
@@ -66,6 +41,7 @@ def main() -> None:
     rrf_search_parser.add_argument("--rerank-method", type=str, choices=["individual", "batch", "cross_encoder"], help="Rerank method")
     rrf_search_parser.add_argument("--json", action="store_true", help="Return results as JSON")
     rrf_search_parser.add_argument("--debug", action="store_true", help="Enable debug logging for pipeline stages")
+    rrf_search_parser.add_argument("--evaluate", action="store_true", help="Evaluate results with an LLM on a 0-3 relevance scale")
 
     args = parser.parse_args()
 
@@ -108,9 +84,10 @@ def main() -> None:
             rerank_method = args.rerank_method
             json_output = args.json
             debug = args.debug
+            evaluate = args.evaluate
 
             if debug:
-                _enable_debug_logging()
+                _enable_debug_logging(logger)
 
             original_query = query
             logger.debug("Original query: %s", original_query)
@@ -164,6 +141,11 @@ def main() -> None:
 
             for i, result in enumerate(results, start=1):
                 _print_rrf_result(i, result, rerank_method)
+
+            if evaluate:
+                scores = _evaluate_results(original_query, results)
+                for i, (result, score) in enumerate(zip(results, scores), start=1):
+                    print(f"{i}. {result.get('title', '')}: {score}/3")
             
             return results
 
