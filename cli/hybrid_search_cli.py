@@ -1,4 +1,5 @@
 import argparse
+import json
 import sys
 from pathlib import Path
 
@@ -33,6 +34,7 @@ def main() -> None:
     rrf_search_parser.add_argument("--limit", type=int, default=5, help="Limit number of results (default: 5)")
     rrf_search_parser.add_argument("--enhance", type=str, choices=["spell","rewrite","expand"], help="Query enhancement method")
     rrf_search_parser.add_argument("--rerank-method", type=str, choices=["individual", "batch", "cross_encoder"], help="Rerank method")
+    rrf_search_parser.add_argument("--json", action="store_true", help="Return results as JSON")
 
     args = parser.parse_args()
 
@@ -73,6 +75,7 @@ def main() -> None:
             limit = args.limit
             enhance = args.enhance
             rerank_method = args.rerank_method
+            json_output = args.json
 
             if k <= 0:
                 parser.error("rrf_search requires k > 0")
@@ -93,11 +96,20 @@ def main() -> None:
                 results = rerank(results, rerank_method, query, documents, result_limit)
             
             if not results:
-                print("No results found.")
+                if json_output:
+                    print("[]")
+                else:
+                    print("No results found.")
                 return
+
+            if json_output:
+                print(json.dumps(results))
+                return results
 
             for i, result in enumerate(results, start=1):
                 _print_rrf_result(i, result, rerank_method)
+            
+            return results
 
         case _:
             parser.print_help()

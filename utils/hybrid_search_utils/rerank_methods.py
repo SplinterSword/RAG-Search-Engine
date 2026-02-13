@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 from google import genai
 import json
 import re
-from sentence_transformers import CrossEncoder
 
 load_dotenv()
 api_key = os.environ.get("GEMINI_API_KEY")
@@ -130,6 +129,8 @@ Return ONLY the IDs in order of relevance (best match first). Return a valid JSO
     return results
 
 def rerank_cross_encoder(results, query, documents, limit):
+    from sentence_transformers import CrossEncoder
+
     pairs = []
     cross_encoder = CrossEncoder("cross-encoder/ms-marco-TinyBERT-L2-v2")
     for result in results:
