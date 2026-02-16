@@ -218,7 +218,7 @@ class ChunkedSemanticSearch(SemanticSearch):
 
         for i in range(limit):
             movie_idx, score = movie_score[i]
-            movie = self.documents[movie_idx]
+            movie = self.document_map[movie_idx]
             result.append({"id": movie["id"], "title": movie["title"], "document": movie["description"][:100], "score": round(score, 4)})
         
         return result
