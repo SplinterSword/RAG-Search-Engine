@@ -1,0 +1,80 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:146.0) Gecko/20100101 Firefox/146.0" version="29.3.6">
+  <diagram name="Page-1" id="4xQNolHzyqTLrDeBM05q">
+    <mxGraphModel dx="1314" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="N-jhrk-RVHA_285tk-d7-2" edge="1" parent="1" source="N-jhrk-RVHA_285tk-d7-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="N-jhrk-RVHA_285tk-d7-3">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="410" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="N-jhrk-RVHA_285tk-d7-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="User Query" vertex="1">
+          <mxGeometry height="60" width="120" x="350" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="N-jhrk-RVHA_285tk-d7-4" edge="1" parent="1" source="N-jhrk-RVHA_285tk-d7-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.416;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" target="N-jhrk-RVHA_285tk-d7-5">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="375" y="200" as="sourcePoint" />
+            <mxPoint x="245" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="N-jhrk-RVHA_285tk-d7-7" edge="1" parent="1" source="N-jhrk-RVHA_285tk-d7-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;" target="N-jhrk-RVHA_285tk-d7-9">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="425" y="190" />
+              <mxPoint x="425" y="210" />
+              <mxPoint x="595" y="210" />
+            </Array>
+            <mxPoint x="595" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="N-jhrk-RVHA_285tk-d7-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;Query Enhancement&lt;/div&gt;&lt;div&gt;(LLM Expansion / Cleanup)&amp;nbsp;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="185" x="318" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-jhrk-RVHA_285tk-d7-10" edge="1" parent="1" source="N-jhrk-RVHA_285tk-d7-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="435" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="N-jhrk-RVHA_285tk-d7-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;Keyword Search&lt;/div&gt;&lt;div&gt;(BM25 / TF-IDF)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="130" x="185" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="N-jhrk-RVHA_285tk-d7-11" edge="1" parent="1" source="N-jhrk-RVHA_285tk-d7-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="N-jhrk-RVHA_285tk-d7-12">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="435" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="N-jhrk-RVHA_285tk-d7-9" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;Semantic Search&lt;/div&gt;&lt;div&gt;(Embeddings + Vector Similarity)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="140" x="525" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="N-jhrk-RVHA_285tk-d7-14" edge="1" parent="1" source="N-jhrk-RVHA_285tk-d7-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="N-jhrk-RVHA_285tk-d7-13" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="N-jhrk-RVHA_285tk-d7-12" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;Hybrid Fusion&lt;/div&gt;&lt;div&gt;(Weighted / RRF)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="375" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="N-jhrk-RVHA_285tk-d7-16" edge="1" parent="1" source="N-jhrk-RVHA_285tk-d7-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="N-jhrk-RVHA_285tk-d7-15" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="N-jhrk-RVHA_285tk-d7-13" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="LLM / Cross Encorder Reranking" vertex="1">
+          <mxGeometry height="60" width="140" x="365" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="N-jhrk-RVHA_285tk-d7-18" edge="1" parent="1" source="N-jhrk-RVHA_285tk-d7-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="N-jhrk-RVHA_285tk-d7-17" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="N-jhrk-RVHA_285tk-d7-15" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="&lt;div&gt;Evaluation Layer&lt;/div&gt;&lt;div&gt;(Precision / Recall / LLM as Judge)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="170" x="350" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="N-jhrk-RVHA_285tk-d7-20" edge="1" parent="1" source="N-jhrk-RVHA_285tk-d7-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="N-jhrk-RVHA_285tk-d7-19" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="N-jhrk-RVHA_285tk-d7-17" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="&lt;div&gt;Augmented Generation&lt;/div&gt;&lt;div&gt;(RAG / LLM Response)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="165" x="352.5" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="N-jhrk-RVHA_285tk-d7-19" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="Final Response" vertex="1">
+          <mxGeometry height="60" width="120" x="375" y="850" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
