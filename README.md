@@ -4,6 +4,9 @@ This repository implements a movie search system that combines lexical retrieval
 
 The codebase is organized as runnable CLIs over shared retrieval libraries, with cached indexes/embeddings and optional Gemini-based query enhancement and judging.
 
+## Youtube Video 
+[Youtube Link](https://www.youtube.com/watch?v=G1m7K7ZG1M0)
+
 ## 1. System Scope and What Is Actually Implemented
 
 Implemented:
