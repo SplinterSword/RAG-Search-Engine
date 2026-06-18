@@ -731,19 +731,6 @@ These are code-level issues visible in the current repository state:
 - Cross-encoder reranking improves precision but increases latency roughly O(k) model inferences.
 - Gemini-based enhancement/rerank/eval adds network latency and cost per request.
 
-## 14. Recommended Future Improvements
-
-1. Replace brute-force dense search with ANN (FAISS/HNSW) and benchmark latency/recall tradeoff.
-2. Add a vector store abstraction for scalable persistence and filtering.
-3. Fix known CLI/module inconsistencies listed above.
-4. Add calibrated weighted fusion or learning-to-rank over BM25 + dense + metadata features.
-5. Add deterministic reranker evaluation set with NDCG/MRR/Recall@k tracking.
-6. Add prompt-injection and hallucination safeguards in generation layer.
-7. Add token-aware context builder for RAG (dedupe, compression, citation-linked spans).
-8. Add feedback loop from user interactions for continuous relevance tuning.
-9. Add domain adaptation options (fine-tuned embeddings or rerankers).
-10. Add distributed indexing and asynchronous batch embedding pipeline.
-
 ## 15. CLI Entry Points Summary
 
 - Keyword: `cli/keyword_search_cli.py`
